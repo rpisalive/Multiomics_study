@@ -2,7 +2,7 @@
 library(RColorBrewer)
 
 setwd('...')
-metab_SE <- readRDS('annotated_qp.RDS')
+metab_SE <- readRDS('.../annotated_qp.RDS') #path of the saved .rds file from script 1
 source('metab_limma_categorical.R')
 source('metab_limma_plot_categorical.R')
 source('metab_limma_plot_heatmap.R')
