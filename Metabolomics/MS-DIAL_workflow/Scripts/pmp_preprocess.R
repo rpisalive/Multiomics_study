@@ -113,6 +113,10 @@ pmp_preprocess <- function(pos_output, neg_output, metadata = NULL, samples_key 
   
   message('SummarizedExperiment object created...')
   
+  #Saving a unfiltered .csv file with raw intensities for MetaboAnalystR stat analysis
+  write.csv(metab_SE@assays@data$counts, "raw_intensities_matrix.csv", row.names = TRUE)
+  message('Matrix of raw intensities saved as raw_intensities_matrix.csv')
+  
   ###
   ### FILTERING AND NORMALISATION
   ###
@@ -174,6 +178,9 @@ pmp_preprocess <- function(pos_output, neg_output, metadata = NULL, samples_key 
   
   # Number of features
   features4 <- dim(metab_filt)
+  
+  #Generate a .csv file with all features and raw intensities
+############################################################  
   
   # Data normalisation
   metab_norm <- pqn_normalisation(df = metab_filt,
