@@ -1,6 +1,6 @@
 keep_annotated_met <- function(metab_SE) {
   # Keep only rows with at least one annotation
-  metab_SE <- metab_SE[(!is.na(rowData(metab_SE)$HMDB) | #!is.na(rowData(metab_SE)$compound_name_gnps) |
+  metab_SE <- metab_SE[(!is.na(rowData(metab_SE)$HMDB) | !is.na(rowData(metab_SE)$compound_name_gnps) |
                           rowData(metab_SE)$`info.Metabolite name` != 'Unknown'), ]
   # Create a rowData ionisation variable
   rowData(metab_SE)$ionisation <- gsub('\\d*_(pos|neg)', '\\1', rownames(metab_SE))
