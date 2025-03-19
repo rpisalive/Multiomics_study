@@ -27,8 +27,7 @@ converted <- read.csv('name_map.csv') #Read the results into the environment.
 match_idx <- match(annotations$Short_names, converted$Query) # Find matches between Short_names and Query
 annotations$HMDB_ID[!is.na(match_idx)] <- converted$HMDB[match_idx[!is.na(match_idx)]] # Update HMDB_ID only where there's a match
 annotations$KEGG_ID[!is.na(match_idx)] <- converted$KEGG[match_idx[!is.na(match_idx)]] # Update HMDB_ID only where there's a match
-#Now compound names have IDs assigned based on MetaboAnalyst data base.
-#Next, 
+#Now compounds previously have no IDs are assigned one based on MetaboAnalyst database.
 write.csv(annotations,'annotations_updated.csv', row.names = FALSE) #Generating .csv file for over representation analysis.
 
 #MetaboAnalyst database matching, based on names, HMDB ID, KEGG ID and GNPS names

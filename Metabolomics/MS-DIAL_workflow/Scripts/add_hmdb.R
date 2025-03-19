@@ -12,11 +12,17 @@ add_hmdb <- function(metab_SE, hmdb, mass_tol, cores) {
   KEGG_db <- as.vector(hmdb$kegg)
   Name_db <- as.vector(hmdb$name)
   HMDB_id_db <- as.vector(hmdb$accession)
+  chebi_id_db <- as.vector(hmdb$chebi_id)
+  metlin_id_db <- as.vector(hmdb$metlin_id)
+  pubchem_db <- as.vector(hmdb$pubchem)
   Mass_data <- as.vector(rowData(metab_SE)$`info.Average Mz`)
   Adduct_data <- rowData(metab_SE)$`info.Adduct type`
   HMDB_data <- rep(NA, length(Mass_data))
   HMDB_id <- rep(NA, length(Mass_data))
+  chebi_id <- rep(NA, length(Mass_data))
+  metlin_id <- rep(NA, length(Mass_data))
   KEGG_data <- rep(NA, length(Mass_data))
+  pubchem_id <- rep(NA, length(Mass_data))
   # Get masses corrected for ion precursors
   for (m in 1:length(Mass_data)){
     if (Adduct_data[m] %in% c('[M+2H]2+','[M+H]+','[M+Na]+','[M+NH4]+','[M+NH4]2+')){
@@ -53,6 +59,9 @@ add_hmdb <- function(metab_SE, hmdb, mass_tol, cores) {
       index = which(TF_DF[,i] == T) %>% as.numeric()
       HMDB_data[i] <- paste0(Name_db[index], collapse = ';')
       HMDB_id[i] <- paste0(HMDB_id_db[index], collapse = ';')
+      chebi_id[i] <- paste0(chebi_id_db[index], collapse = ';')
+      metlin_id[i] <- paste0(metlin_id_db[index], collapse = ';')
+      pubchem_id[i] <- paste0(pubchem_db[index], collapse = ';')
       KEGG_data[i] <- paste0(KEGG_db[index], collapse = ';')
     }
   }
@@ -60,5 +69,8 @@ add_hmdb <- function(metab_SE, hmdb, mass_tol, cores) {
   rowData(metab_SE)$HMDB <- HMDB_data %>% dplyr::na_if(.,'')
   rowData(metab_SE)$KEGG <- KEGG_data %>% dplyr::na_if(.,'')
   rowData(metab_SE)$HMDB_accession <- HMDB_id %>% dplyr::na_if(.,'')
+  rowData(metab_SE)$chebi_ID <- chebi_id %>% dplyr::na_if(.,'')
+  rowData(metab_SE)$metlin_ID <- metlin_id %>% dplyr::na_if(.,'')
+  rowData(metab_SE)$pubchem_ID <- pubchem_id %>% dplyr::na_if(.,'')
   return(metab_SE)
 }
