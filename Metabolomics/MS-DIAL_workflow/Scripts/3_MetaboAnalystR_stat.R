@@ -1,9 +1,9 @@
 library(MetaboAnalystR)
 
-setwd('C:/Users/49152/Downloads/Brain_trauma')
+setwd('path_to/working_directory')
 #Prepare .csv file for MetaboAnalyst statistics analysis
-raw_int <- read.csv('raw_intensities_matrix.csv', row.names = 1)
-metab_SE <- readRDS('annotated_qp.RDS')
+raw_int <- read.csv('path_to/raw_intensities_matrix.csv', row.names = 1)
+metab_SE <- readRDS('path_to/annotated_qp.RDS')
 matrix <- as.data.frame(metab_SE@assays@data$counts)
 raw_int <- raw_int[rownames(raw_int) %in% rownames(matrix), ]
 rownames(raw_int)<- metab_SE@elementMetadata$shortname
@@ -16,6 +16,8 @@ raw_int <- raw_int[, raw_int[1, ] != "QC"]
 label <- c(1,2,3,-4,-5,-6,-7,-8,-9,4,5,6,7,8,9,-1,-2,-3)
 raw_int[1,] <- label
 write.csv(raw_int, "meta_stat.csv", row.names = TRUE)
+
+
 
 #MetboAnalyst statistics
 mSet<-InitDataObjects("pktable", "stat", paired = TRUE)
