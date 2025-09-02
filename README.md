@@ -1,4 +1,6 @@
-# Multiomics_study
-This project stores codes of different omics workflows.
-Metabolomics - DEIMoS trial & bulk metabolomics processing pipeline.
-Transcriptomics - Basic scRNAseq data analysis, RNA velocity & COMPASS analysis for GSE242894, Spatial resolved analysis for GSE225857.
+# Multiomics\_study
+
+This project stores codes of omics workflows.
+Metabolomics - Bulk metabolomics processing pipeline with MS-DIAL.
+Transcriptomics - Fundamental scRNAseq downstream analysis, RNA velocity \& COMPASS analysis for GSE242894, Spatial resolved analysis for GSE225857.
+
