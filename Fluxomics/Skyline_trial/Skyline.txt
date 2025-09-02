@@ -1,0 +1,58 @@
+This document summarises how to process Thermo .raw files to acquire intensities of isotopologues.
+
+Pipeline overview:
+Vendor format -> MSConvert -> Skyline -> PICor input preparation -> PICor -> Downstream analysis
+
+1. Vendor format
+
+Before converting into .mzML format, check:
+- Profile or Centroid?
+- SIM or SRM?
+- positive or negative ioni mode?
+
+In case of uncertainties, extract info. from vendor format using MSConvert, SIM example:
+msconvert yourfile.raw --text --filter "msLevel 1" --outfile yourfile_MS1.txt
+
+2. MSConvert
+If vendor format is not centroided, applying Peak Picking filter.
+Check Write index, zlib compression and TPP compatibility.
+If SIM mode was used in MS experiment, check SIM as spectra.
+
+3. Skyline
+Prepare a transition list for Skyline, here is an example for AcetylCoA and Pyruvate in .csv format:
+
+Molecule	Molecular Formula	Precursor Adduct
+Pyruvate	C3H4O3	[M-H]
+Pyruvate	C2C'1H4O3	[M-H]
+Pyruvate	C1C'2H4O3	[M-H]
+Pyruvate	C'3H4O3	[M-H]
+AcetylCoA	C23H38N7O17P3S	[M-H]
+AcetylCoA	C22C'1H38N7O17P3S	[M-H]
+AcetylCoA	C21C'2H38N7O17P3S	[M-H]
+AcetylCoA	C20C'3H38N7O17P3S	[M-H]
+AcetylCoA	C19C'4H38N7O17P3S	[M-H]
+AcetylCoA	C18C'5H38N7O17P3S	[M-H]
+AcetylCoA	C17C'6H38N7O17P3S	[M-H]
+AcetylCoA	C16C'7H38N7O17P3S	[M-H]
+AcetylCoA	C15C'8H38N7O17P3S	[M-H]
+AcetylCoA	C14C'9H38N7O17P3S	[M-H]
+
+C' represents a C13, number of isotope goes before C'.
+
+4. PICor input preparation
+PICor accepts .csv file with the following structure:
+index	filename	compound	1C13	2C13	3C13	No Label
+1	250509_MHO06AI_CoA_1	Pyruvate	396882.5453	NA	NA	11493746.78
+2	250509_MHO06AI_CoA_10	Pyruvate	588122.546	NA	NA	19127378.89
+3	250509_MHO06AI_CoA_100	Pyruvate	34395.14692	NA	389318.1994	646966.7614
+4	250509_MHO06AI_CoA_101	Pyruvate	29733.10071	13076.72	459140.0683	488403.3725
+
+The script Skyline_transformation.ipynb transforms Skyline output into PICor input format.
+
+5. PICor
+PICor, a command line tool for natural isotope correction. Below is an example execution command:
+for %a in (Pyruvate, AcetylCoA) do picor C:/Users/49152/Downloads/Fluxomics/PICor/Input/%a_picor.csv %a -o C:/Users/49152/Downloads/Fluxomics/PICor/Output/%a_corr.csv --molecules-file C:/Users/49152/Downloads/Fluxomics/250725_Meeting Waters/parameter_file_commands_PiCor/isocorr/metabolites.csv --res-correction --resolution 60000 --mz-calibration 200 -x filename -x compound
+
+6. Downstream analysis
+TBC
+
