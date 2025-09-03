@@ -48,6 +48,7 @@ index	filename	compound	1C13	2C13	3C13	No Label
 4	250509_MHO06AI_CoA_101	Pyruvate	29733.10071	13076.72	459140.0683	488403.3725
 
 The script Skyline_transformation.ipynb transforms Skyline output into PICor input format.
+The script Skyline_TraceFinder.ipynb provides visualisation on how well do Skyline results fit with TraceFinder results.
 
 5. PICor
 PICor, a command line tool for natural isotope correction. Below is an example execution command:
